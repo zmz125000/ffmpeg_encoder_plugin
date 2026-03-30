@@ -26,6 +26,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
             {8, "veryslow"},
         },
     .defaultPreset = 5,
+    .customParamsKey = "x265-params",
 };
 
 X265Encoder::X265Encoder() { FFmpegEncoder::encoderInfo = encoderInfo; }

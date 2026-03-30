@@ -229,6 +229,10 @@ void FFmpegEncoder::ApplyOptions(AVCodecContext* ctx, UISettingsController& sett
             av_opt_set(ctx->priv_data, "preset", preset->second.c_str(), 0);
         }
     }
+
+    if (encoderInfo.customParamsKey != nullptr && !settings.GetCustomParams().empty()) {
+        av_opt_set(ctx->priv_data, encoderInfo.customParamsKey, settings.GetCustomParams().c_str(), 0);
+    }
 }
 
 StatusCode FFmpegEncoder::DoProcess(HostBufferRef* p_pBuff) {

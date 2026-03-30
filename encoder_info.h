@@ -25,6 +25,7 @@ struct EncoderInfo {
     uint8_t qp[3]{};
     std::map<int, std::string> presets{};
     int defaultPreset{};
+    const char* customParamsKey{};
 };
 
 }
