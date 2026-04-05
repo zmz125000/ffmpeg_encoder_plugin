@@ -25,6 +25,11 @@ void UISettingsController::Load(IPropertyProvider* values) {
     values->GetINT32(qpId.c_str(), qp);
     values->GetINT32(bitrateId.c_str(), bitRate);
     values->GetINT32(presetId.c_str(), preset);
+
+    std::string customParamsStr;
+    if (values->GetString(customParamsId.c_str(), customParamsStr)) {
+        customParams = customParamsStr;
+    }
 }
 
 StatusCode UISettingsController::Render(HostListRef* settingsList) const {
@@ -59,6 +64,7 @@ void UISettingsController::InitDefaults() {
     qpId = prefix + "qp";
     bitrateId = prefix + "bitrate";
     presetId = prefix + "preset";
+    customParamsId = prefix + "custom_params";
 }
 
 void UISettingsController::SetFirstSupportedQualityMode() {
@@ -87,6 +93,15 @@ StatusCode UISettingsController::RenderQuality(HostListRef* settingsList) const 
         item.MakeComboBox("Encoder Preset", textsVec, valuesVec, preset);
         if (!item.IsSuccess() || !settingsList->Append(&item)) {
             g_Log(logLevelError, "FFmpeg Plugin :: Failed to populate encoder preset UI entry");
+            return errFail;
+        }
+    }
+
+    if (encoderInfo.customParamsKey != nullptr) {
+        HostUIConfigEntryRef item(customParamsId);
+        item.MakeTextBox("Encoder Params", customParams, "");
+        if (!item.IsSuccess() || !settingsList->Append(&item)) {
+            g_Log(logLevelError, "FFmpeg Plugin :: Failed to populate custom params UI entry");
             return errFail;
         }
     }
@@ -163,3 +178,5 @@ int32_t UISettingsController::GetQP() const { return std::max<int>(0, qp); }
 int32_t UISettingsController::GetBitRate() const { return bitRate * 1000; }
 
 int32_t UISettingsController::GetPreset() const { return preset; }
+
+const std::string& UISettingsController::GetCustomParams() const { return customParams; }

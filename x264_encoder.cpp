@@ -26,6 +26,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
             {8, "veryslow"},
         },
     .defaultPreset = 5,
+    .customParamsKey = "x264-params",
 };
 
 X264Encoder::X264Encoder() { FFmpegEncoder::encoderInfo = encoderInfo; }

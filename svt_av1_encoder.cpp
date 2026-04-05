@@ -30,6 +30,7 @@ const EncoderInfo SvtAv1Encoder::encoderInfo = {
             {12, "12"},
         },
     .defaultPreset = 8,
+    .customParamsKey = "svtav1-params",
 };
 
 SvtAv1Encoder::SvtAv1Encoder() { FFmpegEncoder::encoderInfo = encoderInfo; }
